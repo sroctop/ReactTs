@@ -65,7 +65,7 @@ class Login extends Component {
                   prefix={
                     <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
-                  placeholder="Username"
+                  placeholder="请输入账号"
                 />
               )}
             </Form.Item>
