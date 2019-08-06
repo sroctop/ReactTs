@@ -1,17 +1,41 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button } from "antd";
+import { Form, Icon, Input, Button, message } from "antd";
 
 import "./login.less";
 import logo from "./images/logo.png";
+import { reqLogin } from "../../api";
+import memoryUtils from "../../utils/memoryUtils";
+import storageUtils from "../../utils/storageUtils";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   // Form submit function
   handleSubmit = (event: any) => {
     event.preventDefault(); // 禁止默认事件
 
-    (this.props as any).form.validateFields((err: any, values: any) => {
+    (this.props as any).form.validateFields(async (err: any, values: any) => {
       if (!err) {
-        console.log("提交登录的ajax的请求", values);
+        // console.log("提交登录的ajax的请求", values);
+        const { username, password } = values;
+        try {
+          const response: any = await reqLogin(username, password);
+          // console.log("请求成功", response.data);
+          const result = response;
+          if (result.status === 0) {
+            message.success("登录成功");
+            // 保存user
+            const user = result.data;
+            memoryUtils.user = user;
+            storageUtils.saveUser(user); // 保存在store中
+
+            // 跳转至登录
+            (this.props as any).history.replace("/");
+          } else {
+            message.error(result.msg);
+          }
+        } catch (error) {
+          console.log("请求出错了", error);
+        }
       } else {
         console.log("校验失败");
       }
@@ -36,6 +60,12 @@ class Login extends Component {
 
   render() {
     // const form = this.props.form;
+
+    // 如果用户已经登录，自动跳转到管理界面
+    const user: any = memoryUtils.user;
+    if(user && user._id) {
+      return <Redirect to='/' />
+    }
 
     const form = (this.props as any).form;
 
