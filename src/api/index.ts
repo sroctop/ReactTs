@@ -21,7 +21,7 @@ export function reqWeather(city: string) {
     jsonp( url, {
       param: 'callback',
     }, (error: any, response: any) => {
-      if (!error && response.status == 'success') {
+      if (!error && response.status === 'success') {
         const { dayPictureUrl, weather } = response.results[0].weather_data[0];
         resolve({dayPictureUrl, weather})
       } else {
@@ -31,5 +31,3 @@ export function reqWeather(city: string) {
     
   })
 }
-
-reqWeather('青岛');
