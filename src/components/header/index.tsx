@@ -34,10 +34,10 @@ class Header extends Component {
 
   getWeather = async () => {
     // 调用接口，获取数据
-    const response: any = await reqWeather("青岛");
+    const { dayPictureUrl, weather }: any = await reqWeather("青岛");
     this.setState({
-      dayPictureUrl: response.dayPictureUrl,
-      weather: response.weather
+      dayPictureUrl,
+      weather,
     });
   };
 

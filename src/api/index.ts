@@ -4,12 +4,22 @@
 import ajax from './ajax';
 import jsonp from 'jsonp';
 import { message } from 'antd';
+const BASE = ''
 
 // 登录
 export const reqLogin = (username: string, password: string) => ajax('/login', { username, password }, 'POST');
 
 // 添加用户
 export const reqAddUser = (user: string) => ajax('/manage/user/add', user, 'POST');
+
+// 获取一级/二级分类的列表
+export const reqCategorys = (parentId: string) => ajax(BASE + '/manage/category/list', {parentId});
+
+// 添加分类
+export const reqAddCategorys = (categoryName: string, parentId: string) => ajax(BASE + '/manage/category/add', { categoryName, parentId }, 'POST');
+
+// 更新分类
+export const reqUpdateCategorys = (categoryName: string, categoryId: string) => ajax(BASE + '/manage/category/update', { categoryName, categoryId }, 'POST');
 
 /**
  * 通过jsonp请求获取天气信息
