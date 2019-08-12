@@ -19,7 +19,7 @@ export const reqCategorys = (parentId: string) => ajax(BASE + '/manage/category/
 export const reqAddCategorys = (categoryName: string, parentId: string) => ajax(BASE + '/manage/category/add', { categoryName, parentId }, 'POST');
 
 // 更新分类
-export const reqUpdateCategorys = (categoryName: string, categoryId: string) => ajax(BASE + '/manage/category/update', { categoryName, categoryId }, 'POST');
+export const reqUpdateCategorys = ({categoryName, categoryId}: any) => ajax(BASE + '/manage/category/update', { categoryName, categoryId }, 'POST');
 
 /**
  * 通过jsonp请求获取天气信息
