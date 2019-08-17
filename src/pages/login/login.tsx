@@ -8,12 +8,18 @@ import memoryUtils from "../../utils/memoryUtils";
 import storageUtils from "../../utils/storageUtils";
 import { Redirect } from "react-router-dom";
 
-class Login extends Component {
+interface Props {
+  setForm: any,
+  form: any,
+  history: any,
+}
+
+class Login extends Component<Props> {
   // Form submit function
   handleSubmit = (event: any) => {
     event.preventDefault(); // 禁止默认事件
 
-    (this.props as any).form.validateFields(async (err: any, values: any) => {
+    this.props.form.validateFields(async (err: any, values: any) => {
       if (!err) {
         // console.log("提交登录的ajax的请求", values);
         const { username, password } = values;
@@ -29,7 +35,7 @@ class Login extends Component {
             storageUtils.saveUser(user); // 保存在store中
 
             // 跳转至登录
-            (this.props as any).history.replace("/");
+            this.props.history.replace("/");
           } else {
             message.error(result.msg);
           }
@@ -67,7 +73,7 @@ class Login extends Component {
       return <Redirect to='/' />
     }
 
-    const form = (this.props as any).form;
+    const form = this.props.form;
 
     const { getFieldDecorator } = form;
     return (
@@ -87,7 +93,7 @@ class Login extends Component {
                   { max: 12, message: "用户名最多12位" },
                   {
                     pattern: /^[a-zA-Z0-9_]+$/,
-                    message: "用户名必须是英文数字下划线开头"
+                    message: "用户`名必须是英文数字下划线开头"
                   }
                 ]
               })(

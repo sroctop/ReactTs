@@ -148,11 +148,6 @@ export default class Category extends Component {
    * 更新分类
    */
   updateCategory = () => {
-<<<<<<< HEAD
-    message.success("修改分类");
-
-    // 
-=======
     // 表单验证
     this.form.validateFields(async (err: any, value: any) => {
       if (!err) {
@@ -179,7 +174,6 @@ export default class Category extends Component {
         }
       }
     });
->>>>>>> f01949bce5cd7d11afd10d4f568f2c7bf0237590
   };
 
   /**
@@ -246,12 +240,12 @@ export default class Category extends Component {
       parentId === "0" ? (
         "一级分类列表"
       ) : (
-        <span>
-          <LinkButton onClick={this.showCategorys}>一级分类列表</LinkButton>
-          <Icon type="arrow-right" style={{ marginRight: 5 }} />
-          <span>{parentName}</span>
-        </span>
-      );
+          <span>
+            <LinkButton onClick={this.showCategorys}>一级分类列表</LinkButton>
+            <Icon type="arrow-right" style={{ marginRight: 5 }} />
+            <span>{parentName}</span>
+          </span>
+        );
 
     // card 的右侧
     const extra = (

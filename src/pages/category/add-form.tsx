@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Form, Select, Input } from "antd";
 
+interface Props {
+  setForm: any,
+  form: any,
+}
+
 const Item = Form.Item;
 const Option = Select.Option;
 
-class AddForm extends Component {
+class AddForm extends Component<Props> {
   static propTypes = {
     categorys: PropTypes.array.isRequired,
     parentId: PropTypes.string.isRequired,
@@ -13,11 +18,11 @@ class AddForm extends Component {
   };
 
   componentWillMount() {
-    (this.props as any).setForm((this.props as any).form);
+    this.props.setForm(this.props.form);
   }
 
   render() {
-    const { getFieldDecorator } = (this.props as any).form;
+    const { getFieldDecorator } = this.props.form;
     const { categorys, parentId }: any = this.props;
     return (
       <Form>
