@@ -21,6 +21,8 @@ export const reqAddCategorys = (categoryName: string, parentId: string) => ajax(
 // 更新分类
 export const reqUpdateCategorys = ({categoryName, categoryId}: any) => ajax(BASE + '/manage/category/update', { categoryName, categoryId }, 'POST');
 
+// 获取商品分页列表
+export const reqProducts = (pageNum: number, pageSize: number) => ajax(BASE + '/manage/product/list', {pageNum, pageSize})
 /**
  * 通过jsonp请求获取天气信息
  */
