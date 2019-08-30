@@ -19,16 +19,8 @@ export default class Product extends Component {
   private columns?: any;
 
   state = {
-    total: 0, 
-    products: [
-      {
-        "_id": "123",
-        "name": "qzroc",
-        "status": 0,
-        "desc": "www.qzroc.com",
-        "price": 4999,
-      }
-    ],
+    total: 0,
+    products: [],
   }
 
   /**
@@ -82,7 +74,7 @@ export default class Product extends Component {
    */
   getProducts = async (pageNum: number) => {
     const result: any = await reqProducts(pageNum, 3);
-    if(result.status === 0) {
+    if (result.status === 0) {
       const { total, list } = result.data;
       this.setState({
         total,
@@ -91,12 +83,12 @@ export default class Product extends Component {
     }
   }
 
-  
-  componentWillMount () {
+
+  componentWillMount() {
     this.initColumns();
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.getProducts(1);
   }
 
@@ -126,7 +118,13 @@ export default class Product extends Component {
 
     return (
       <Card title={title} extra={extra}>
-        <Table bordered rowKey="_id" dataSource={products} columns={this.columns} />;
+        <Table
+          bordered
+          rowKey="_id"
+          dataSource={products}
+          columns={this.columns}
+          pagination={{ defaultPageSize: 3 }}
+        />;
       </Card>
     );
   }
