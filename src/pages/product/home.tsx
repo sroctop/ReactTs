@@ -9,6 +9,7 @@ import {
 } from 'antd';
 import LinkButton from '../../components/link-button';
 import { reqProducts } from '../../api';
+import { PAGE_SIZE } from '../../utils/constant';
 
 const Option = Select.Option;
 
@@ -21,6 +22,7 @@ export default class Product extends Component {
   state = {
     total: 0,
     products: [],
+    loading: false, // 列表是否在加载中
   }
 
   /**
@@ -73,7 +75,13 @@ export default class Product extends Component {
    * 获取指定页码的列表数据显示
    */
   getProducts = async (pageNum: number) => {
-    const result: any = await reqProducts(pageNum, 3);
+    this.setState({
+      loading: true,
+    })
+    const result: any = await reqProducts(pageNum, PAGE_SIZE);
+    this.setState({
+      loading: false,
+    })
     if (result.status === 0) {
       const { total, list } = result.data;
       this.setState({
@@ -94,7 +102,7 @@ export default class Product extends Component {
 
   render() {
 
-    const { products } = this.state;
+    const { total, products, loading } = this.state;
 
 
 
@@ -120,10 +128,16 @@ export default class Product extends Component {
       <Card title={title} extra={extra}>
         <Table
           bordered
+          loading={loading}
           rowKey="_id"
           dataSource={products}
           columns={this.columns}
-          pagination={{ defaultPageSize: 3 }}
+          pagination={{
+            total,
+            defaultPageSize: PAGE_SIZE,
+            showQuickJumper: true,
+            onChange: this.getProducts
+           }}
         />;
       </Card>
     );
