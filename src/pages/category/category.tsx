@@ -14,7 +14,7 @@ export default class Category extends Component {
   private category?: any;
 
   state = {
-    loading: false, // 是否正在获取数据中
+    loading: false, // 是否正在获取数据中=4
     categorys: [], // 一级分类列表
     subCategorys: [], // 二级分类列表
     parentId: "0", // 当前需要显示的分类列表的parentId
@@ -240,12 +240,12 @@ export default class Category extends Component {
       parentId === "0" ? (
         "一级分类列表"
       ) : (
-        <span>
-          <LinkButton onClick={this.showCategorys}>一级分类列表</LinkButton>
-          <Icon type="arrow-right" style={{ marginRight: 5 }} />
-          <span>{parentName}</span>
-        </span>
-      );
+          <span>
+            <LinkButton onClick={this.showCategorys}>一级分类列表</LinkButton>
+            <Icon type="arrow-right" style={{ marginRight: 5 }} />
+            <span>{parentName}</span>
+          </span>
+        );
 
     // card 的右侧
     const extra = (
