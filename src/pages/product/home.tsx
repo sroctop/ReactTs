@@ -9,7 +9,7 @@ import {
   Table,
 } from 'antd';
 import LinkButton from '../../components/link-button';
-import { reqProducts } from '../../api';
+import { reqProducts, reqSearchProducts } from '../../api';
 import { PAGE_SIZE } from '../../utils/constant';
 
 const Option = Select.Option;
@@ -21,10 +21,11 @@ export default class Product extends Component {
   private columns?: any;
 
   state = {
-
     total: 0,
     products: [],
     loading: false, // 列表是否在加载中
+    searchName: '', // 搜索的关键字
+    searchType: 'productName', // 根据哪个字段搜索
   }
 
   /**
@@ -84,7 +85,20 @@ export default class Product extends Component {
     this.setState({
       loading: true,
     })
-    const result: any = await reqProducts(pageNum, PAGE_SIZE);
+
+    const {searchName, searchType} = this.state;
+    let result: any;
+    if(searchName) {
+      result = await reqSearchProducts({
+        pageNum,
+        pageSize: PAGE_SIZE,
+        searchName,
+        searchType,
+      })
+    } else {
+       result = await reqProducts(pageNum, PAGE_SIZE);
+    }
+
     this.setState({
       loading: false,
     })
@@ -107,16 +121,24 @@ export default class Product extends Component {
 
   render() {
 
-    const { total, products, loading } = this.state;
+    const { total, products, loading, searchType, searchName } = this.state;
 
     const title = (
       <span>
-        <Select value='1' style={{ width: 150 }}>
-          <Option value='1'>按名称搜索</Option>
-          <Option value='2'>按描述搜索</Option>
+        <Select
+          value={searchType}
+          style={{ width: 150 }}
+          onChange={(value: any) => this.setState({ searchType: value })}
+        >
+          <Option value='productName'>按名称搜索</Option>
+          <Option value='productDesc'>按描述搜索</Option>
         </Select>
-        <Input placeholder="关键字" style={{ width: 150, margin: '0 15px' }} />
-        <Button type="primary">搜索</Button>
+        <Input
+          placeholder="关键字"
+          style={{ width: 150, margin: '0 15px' }}
+          value={searchName}
+          onChange={(event: any) => this.setState({ searchName: event.target.value })} />
+        <Button type="primary" onClick={() => this.getProducts(1)}>搜索</Button>
       </span>
     )
 
@@ -140,7 +162,7 @@ export default class Product extends Component {
             defaultPageSize: PAGE_SIZE,
             showQuickJumper: true,
             onChange: this.getProducts
-           }}
+          }}
         />;
       </Card>
     );
