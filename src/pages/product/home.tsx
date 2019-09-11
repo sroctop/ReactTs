@@ -14,10 +14,19 @@ import { PAGE_SIZE } from '../../utils/constant';
 
 const Option = Select.Option;
 
+interface IMyComponentProps {
+  history: {
+    push: (
+      path: string,
+      state?: object
+    ) => void;
+  };
+}
+
 /**
  * Product 的默认的子路由组件
  */
-export default class Product extends Component {
+export default class Product extends Component<IMyComponentProps> {
   private columns?: any;
 
   state = {
@@ -67,7 +76,7 @@ export default class Product extends Component {
         render: (product: any) => {
           return (
             <span>
-              <LinkButton>详情</LinkButton>
+              <LinkButton onClick={() => this.props.history.push('/product/detail', {product})}>详情</LinkButton>
               <LinkButton>操作</LinkButton>
             </span>
           )
